@@ -8,8 +8,9 @@ const SharePage = () => {
   const [code, setCode] = useState('');
 
   useEffect(() => {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     // Fetch the code using the share ID
-    fetch(`http://localhost:8080/api/get-shared-code/${id}`)
+    fetch(`${backendUrl}/api/get-shared-code/${id}`)
       .then(response => response.json())
       .then(data => setCode(data.code));
   }, [id]);

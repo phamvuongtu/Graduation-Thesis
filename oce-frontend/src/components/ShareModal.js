@@ -7,10 +7,12 @@ const ShareModal = ({ onClose, code }) => {
   const [shareLink, setShareLink] = useState("");
 
   useEffect(() => {
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
     const generateShareLink = async () => {
       // Call your back-end service to generate a unique shareable link
       const response = await fetch(
-        "http://localhost:8080/api/generate-share-link",
+        // "http://localhost:8080/api/generate-share-link",
+        `${backendUrl}/api/generate-share-link`,
         {
           method: "POST",
           headers: {

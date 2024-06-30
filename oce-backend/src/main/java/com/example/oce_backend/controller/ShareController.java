@@ -15,13 +15,14 @@ public class ShareController {
 
     @Autowired
     private SharedCodeService sharedCodeService;
+    private static final String FRONTEND_URL = "https://online-code-editor-frontend-five.vercel.app";
 
     @PostMapping("/generate-share-link")
     public ResponseEntity<Map<String, String>> generateShareLink(@RequestBody Map<String, String> payload) {
         String code = payload.get("code");
         SharedCode sharedCode = sharedCodeService.generateShareLink(code);
         Map<String, String> response = new HashMap<>();
-        response.put("link", "http://localhost:3000/share/" + sharedCode.getUniqueId());
+        response.put("link", FRONTEND_URL + "share/" + sharedCode.getUniqueId());
         return ResponseEntity.ok(response);
     }
 
