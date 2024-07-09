@@ -16,7 +16,17 @@ This guide will walk you through setting up the project, including the database,
 The project uses MongoDB as its database.
 
 1. Ensure MongoDB is running on your local machine. The default port is `27017`.
-2. The database used by the project is named `sharecode_db`. MongoDB will automatically create this database once data is inserted.
+2. Navigate to the `OCE` folder and create a directory for MongoDB data:
+```sh
+cd /path/to/OCE
+mkdir -p mongodb-data
+```
+3. Start MongoDB with the specified `--dbpath`:
+```sh
+mongod --dbpath mongodb-data
+```
+4. The database used by the project is named `sharecode_db`. MongoDB will automatically create this database once data is inserted.
+
 
 ## 2. Run Backend
 
