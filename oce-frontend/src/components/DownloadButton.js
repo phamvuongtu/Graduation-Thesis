@@ -1,20 +1,19 @@
-// src/components/DownloadButton.js
 import React, { useState } from "react";
 import { Download } from "./Icon";
 import Button from "./Button";
-import ConfirmationModal from "./DownloadModal"; // Import the new modal component
+import ConfirmationModal from "./ConfirmationModal"; // Corrected the import
 import { toast } from "react-toastify"; // Import toast
 
 const DownloadButton = ({ code, language }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleDownload = () => {
+  const handleDownload = (fileName) => {
     const blob = new Blob([code], { type: "text/plain" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.style.display = "none";
     a.href = url;
-    a.download = `code.${language.value === "py" ? "py" : language.value === "java" ? "java" : language.value === "c" ? "c" : "cpp"}`;
+    a.download = `${fileName}.${language === "py" ? "py" : language === "java" ? "java" : language === "c" ? "c" : "cpp"}`;
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
@@ -23,11 +22,13 @@ const DownloadButton = ({ code, language }) => {
     toast.success("Download successful");
   };
 
-  const handleOpenModal = () => setIsModalOpen(true);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleConfirmDownload = () => {
-    handleDownload();
+  const handleConfirmDownload = (fileName) => {
+    handleDownload(fileName);
     handleCloseModal();
   };
 

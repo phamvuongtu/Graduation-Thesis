@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { languageOptions } from "../constants/languageOptions";
 import Dropdown from './Dropdown';
-import { CaretDown } from './Icon';
 
 const LanguagesDropdown = ({ handleLanguageChange, language, className }) => {
   const [currentLanguage, setCurrentLanguage] = useState(language);
@@ -23,7 +22,6 @@ const LanguagesDropdown = ({ handleLanguageChange, language, className }) => {
   return (
     <div className={`flex items-center ${className}`}>
       <Dropdown
-        icon={<CaretDown />}
         altText="Language Actions"
         textColor="text-primary-primary500"
         placeholder={`Select Language`}

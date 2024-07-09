@@ -190,3 +190,60 @@ export const Link = () => {
     </div>
   );
 };
+
+export const CloseIcon = () => {
+  return (
+    <div className="relative w-[16px] h-[16px]">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="none"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill="currentColor"
+          d="M12.854 12.146a.5.5 0 0 1-.708.708L8 8.707l-4.146 4.147a.5.5 0 0 1-.708-.708L7.293 8 3.146 3.854a.5.5 0 0 1 .708-.708L8 7.293l4.146-4.147a.5.5 0 0 1 .708.708L8.707 8l4.147 4.146Z"
+        />
+      </svg>
+    </div>
+  );
+};
+
+export const Eye = () => {
+  return (
+    <div className="relative w-[16px] h-[16px]">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="none"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill="currentColor"
+          d="M15.457 7.798c-.022-.05-.551-1.224-1.728-2.401C12.16 3.829 10.18 3 8 3s-4.16.829-5.729 2.397C1.094 6.574.562 7.75.543 7.797a.5.5 0 0 0 0 .407c.022.05.551 1.223 1.728 2.4C3.84 12.17 5.82 13 8 13s4.16-.829 5.729-2.396c1.177-1.177 1.706-2.35 1.728-2.4a.5.5 0 0 0 0-.407ZM8 12c-1.924 0-3.604-.7-4.996-2.078A8.342 8.342 0 0 1 1.562 8a8.334 8.334 0 0 1 1.442-1.922C4.396 4.7 6.076 4 8 4c1.924 0 3.604.7 4.996 2.078A8.34 8.34 0 0 1 14.44 8c-.451.841-2.414 4-6.441 4Zm0-7a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0 5a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"
+        />
+      </svg>
+    </div>
+  );
+};
+
+export const GitFork = () => {
+  return (
+    <div className="relative w-[16px] h-[16px]">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="none"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill="currentColor"
+          d="M14 4a2 2 0 1 0-2.5 1.937V7a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V5.937a2 2 0 1 0-1 0V7A1.5 1.5 0 0 0 5 8.5h2.5v1.563a2 2 0 1 0 1 0V8.5H11A1.5 1.5 0 0 0 12.5 7V5.937A2.004 2.004 0 0 0 14 4ZM3 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm3-7a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"
+        />
+      </svg>
+    </div>
+  );
+};

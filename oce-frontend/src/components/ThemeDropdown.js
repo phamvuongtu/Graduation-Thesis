@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import monacoThemes from "monaco-themes/themes/themelist";
 import Dropdown from './Dropdown';
-import { CaretDown } from './Icon';
 
 const ThemeDropdown = ({ handleThemeChange, theme, className }) => {
   const [currentTheme, setCurrentTheme] = useState(theme);
@@ -20,7 +19,6 @@ const ThemeDropdown = ({ handleThemeChange, theme, className }) => {
   return (
     <div className={`flex flex-wrap gap-2 items-center ${className}`}>
       <Dropdown
-        icon={<CaretDown />}
         altText="Theme Actions"
         textColor="text-primary-primary500"
         placeholder={`Select Theme`}

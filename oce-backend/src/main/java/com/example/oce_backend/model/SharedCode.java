@@ -18,6 +18,8 @@ public class SharedCode {
 
     private LocalDateTime expirationTime;
 
+    private String language;
+
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(this.expirationTime);
     }
@@ -52,5 +54,13 @@ public class SharedCode {
 
     public void setExpirationTime(LocalDateTime expirationTime) {
         this.expirationTime = expirationTime;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import debounce from 'lodash.debounce';
-import Header from './components/Header';
+import Header from './components/HeaderEditorPage';
 import EditorSection from './components/EditorSection';
 import OutputSection from './components/OutputSection';
 import { defineTheme } from './libs/defineTheme';
@@ -8,20 +9,18 @@ import monacoThemes from 'monaco-themes/themes/themelist';
 import { languageOptions } from './constants/languageOptions';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
 
 function EditorPage() {
-  const pythonDefault = `# Write your Python code here\nprint("Hello, Python!")`;
-  const javaDefault = `// Write your Java code here\npublic class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, Java!");\n  }\n}`;
-  const cDefault = `#include <stdio.h>\n\nint main() {\n  printf("Hello, C!");\n  return 0;\n}`;
-  const cppDefault = `#include <iostream>\n\nint main() {\n  std::cout << "Hello, C++!" << std::endl;\n  return 0;\n}`;
+  const location = useLocation();
+  const initialCode = location.state?.code || languageOptions[0].defaultCode;
+  const initialLanguage = languageOptions.find(lang => lang.value === location.state?.language) || languageOptions[0];
 
-  const [code, setCode] = useState(cDefault);
+  const [code, setCode] = useState(initialCode);
   const [customInput, setCustomInput] = useState("");
   const [outputDetails, setOutputDetails] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [theme, setTheme] = useState(null);
-  const [language, setLanguage] = useState(languageOptions[0]);
+  const [language, setLanguage] = useState(initialLanguage);
   const [darkMode, setDarkMode] = useState(false);
 
   const containerRef = useRef(null);
@@ -54,26 +53,9 @@ function EditorPage() {
     }
   }, [theme]);
 
-  useEffect(() => {
-    if (language) {
-      switch (language.value) {
-        case 'py':
-          setCode(pythonDefault);
-          break;
-        case 'java':
-          setCode(javaDefault);
-          break;
-        case 'c':
-          setCode(cDefault);
-          break;
-        case 'cpp':
-          setCode(cppDefault);
-          break;
-        default:
-          setCode('');
-      }
-    }
-  }, [language, pythonDefault, javaDefault, cDefault, cppDefault]);
+  // useEffect(() => {
+  //   setCode(language.defaultCode);
+  // }, [language]);
 
   const getStatusDescription = (statusId) => {
     switch (statusId) {
@@ -122,6 +104,7 @@ function EditorPage() {
 
   const handleLanguageChange = (newLanguage) => {
     setLanguage(newLanguage);
+    setCode(newLanguage.defaultCode);
   };
 
   const onChange = (action, data) => {

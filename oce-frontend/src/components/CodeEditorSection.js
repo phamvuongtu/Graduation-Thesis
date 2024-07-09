@@ -1,6 +1,6 @@
 // CodeEditorSection.js
 import React, { useState, useEffect, useRef } from "react";
-import Editor, { useMonaco } from "@monaco-editor/react";
+import Editor from "@monaco-editor/react";
 
 const CodeEditorSection = ({ onChange, language, code, theme, readOnly }) => {
   const [value, setValue] = useState(code || "");
@@ -42,6 +42,7 @@ const CodeEditorSection = ({ onChange, language, code, theme, readOnly }) => {
         editorDidMount={(editor) => {
           editorRef.current = editor;
         }}
+        readOnly={readOnly}
       />
     </div>
   );
