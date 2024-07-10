@@ -65,3 +65,4 @@ build/
 
 # db folder
 db/
+mongodb-data/

@@ -1,3 +1,4 @@
+// EditorPage.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import debounce from 'lodash.debounce';
@@ -53,10 +54,6 @@ function EditorPage() {
     }
   }, [theme]);
 
-  // useEffect(() => {
-  //   setCode(language.defaultCode);
-  // }, [language]);
-
   const getStatusDescription = (statusId) => {
     switch (statusId) {
       case 200:
@@ -107,16 +104,8 @@ function EditorPage() {
     setCode(newLanguage.defaultCode);
   };
 
-  const onChange = (action, data) => {
-    switch (action) {
-      case 'code': {
-        setCode(data);
-        break;
-      }
-      default: {
-        console.warn('case not handled!', action, data);
-      }
-    }
+  const onChange = (newCode) => {
+    setCode(newCode);
   };
 
   const toggleDarkMode = () => {

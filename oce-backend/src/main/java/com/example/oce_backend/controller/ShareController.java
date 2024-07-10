@@ -42,13 +42,14 @@ public class ShareController {
     }
 
     @GetMapping("/get-shared-code/{id}")
-    public ResponseEntity<Map<String, String>> getSharedCode(@PathVariable String id) {
+    public ResponseEntity<Map<String, Object>> getSharedCode(@PathVariable String id) {
         logger.info("Received request to get shared code with uniqueId: " + id); // Log khi nhận được yêu cầu API
         return sharedCodeService.getSharedCode(id)
                 .map(sharedCode -> {
-                    Map<String, String> response = new HashMap<>();
+                    Map<String, Object> response = new HashMap<>();
                     response.put("code", sharedCode.getCode());
                     response.put("language", sharedCode.getLanguage()); // Trả về ngôn ngữ
+                    response.put("editable", sharedCode.isEditable());
                     logger.info("Found shared code for uniqueId: " + id); // Log khi tìm thấy dữ liệu
                     return ResponseEntity.ok(response);
                 })

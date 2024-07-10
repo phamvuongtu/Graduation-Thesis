@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Play, ShareFat, UsersFour, CodeBlock, Sun, Moon } from './Icon';
-import ThemeDropdown from './ThemeDropdown';
-import Button from './Button';
-import DownloadButton from './DownloadButton';
-import LanguagesDropdown from './LanguagesDropdown';
-import ShareModal from './ShareModal';
+import React, { useState } from "react";
+import { Play, ShareFat, UsersFour, CodeBlock, Sun, Moon } from "./Icon";
+import ThemeDropdown from "./ThemeDropdown";
+import Button from "./Button";
+import DownloadButton from "./DownloadButton";
+import LanguagesDropdown from "./LanguagesDropdown";
+import ShareModal from "./ShareModal";
+import CollaborateModal from "./CollaborateModal";
 
 const Header = ({
   handleCompile,
@@ -15,13 +16,17 @@ const Header = ({
   handleLanguageChange,
   language,
   theme,
-  handleThemeChange
+  handleThemeChange,
 }) => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isCollaborateModalOpen, setIsCollaborateModalOpen] = useState(false);
 
   const handleShare = () => {
-    console.log("Share button clicked"); // Log khi nút Share được nhấn
     setIsShareModalOpen(true);
+  };
+
+  const handleCollaborate = () => {
+    setIsCollaborateModalOpen(true);
   };
 
   return (
@@ -32,7 +37,7 @@ const Header = ({
       <nav className="flex flex-wrap justify-between mt-6 text-base gap-5">
         <div className="flex flex-wrap gap-2">
           <Button
-            label={processing ? 'Processing' : 'Run'}
+            label={processing ? "Processing" : "Run"}
             icon={<Play />}
             altText="Run"
             bgColor="bg-primary-primary500"
@@ -62,35 +67,21 @@ const Header = ({
             icon={<UsersFour />}
             altText="Collaborate Action"
             textColor="text-primary-primary500"
+            onClick={handleCollaborate}
           />
           <DownloadButton code={code} language={language.value} />
         </div>
         <div className="flex flex-wrap items-center gap-5">
-          <div className="relative group">
-            {darkMode ? (
-              <button
-                onClick={toggleDarkMode}
-                className="flex items-center space-x-2 text-black dark:text-white"
-              >
-                <Sun />
-                <span className="absolute bottom-full mb-2 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100">
-                  Light mode
-                </span>
-              </button>
-            ) : (
-              <button
-                onClick={toggleDarkMode}
-                className="flex items-center space-x-2 text-black dark:text-white"
-              >
-                <Moon />
-                <span className="absolute bottom-full mb-2 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100">
-                  Dark mode
-                </span>
-              </button>
-            )}
-          </div>
+          <Button
+            label={darkMode ? "Light Mode" : "Dark Mode"}
+            icon={darkMode ? <Sun /> : <Moon />}
+            onClick={toggleDarkMode}
+            textColor="text-primary-primary500"
+          />
           <div className="flex flex-col md:flex-row items-center gap-2">
-            <label className="text-base-black dark:text-base-white font-bold">Language</label>
+            <label className="text-base-black dark:text-base-white font-bold">
+              Language
+            </label>
             <LanguagesDropdown
               handleLanguageChange={handleLanguageChange}
               language={language}
@@ -98,7 +89,9 @@ const Header = ({
             />
           </div>
           <div className="flex flex-col md:flex-row items-center gap-2">
-            <label className="text-base-black dark:text-base-white font-bold">Theme</label>
+            <label className="text-base-black dark:text-base-white font-bold">
+              Theme
+            </label>
             <ThemeDropdown
               handleThemeChange={handleThemeChange}
               theme={theme}
@@ -110,6 +103,13 @@ const Header = ({
       {isShareModalOpen && (
         <ShareModal
           onClose={() => setIsShareModalOpen(false)}
+          code={code}
+          language={language.value}
+        />
+      )}
+      {isCollaborateModalOpen && (
+        <CollaborateModal
+          onClose={() => setIsCollaborateModalOpen(false)}
           code={code}
           language={language.value}
         />

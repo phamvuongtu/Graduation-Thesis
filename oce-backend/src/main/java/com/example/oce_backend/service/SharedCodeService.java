@@ -24,6 +24,8 @@ public class SharedCodeService {
         sharedCode.setUniqueId(UUID.randomUUID().toString());
         sharedCode.setExpirationTime(LocalDateTime.now().plusHours(expiryHours)); // Set expiration time based on user input
         sharedCode.setLanguage(language); // Set ngôn ngữ
+        sharedCode.setEditable(false); // Set editable to true
+        sharedCode.setActiveUsers(0); // Initialize active users to 0
 
         sharedCode = sharedCodeRepository.save(sharedCode);
         logger.info("Saved shared code with uniqueId: " + sharedCode.getUniqueId()); // Log khi lưu dữ liệu vào cơ sở dữ liệu

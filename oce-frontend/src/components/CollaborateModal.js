@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import Button from "./Button";
-import { Link, CloseIcon, Copy } from "./Icon";
+import { CloseIcon, Link, Copy } from "./Icon";
 import { toast } from "react-toastify";
 import Dropdown from "./Dropdown";
 
-const ShareModal = ({ onClose, code, language }) => {
-  const [shareLink, setShareLink] = useState("");
-  const [expiryHours, setExpiryHours] = useState(1); // Default expiry time is 1 hour
+const CollaborateModal = ({ onClose, code, language }) => {
+  const [collaborateLink, setCollaborateLink] = useState("");
+  const [expiryHours, setExpiryHours] = useState(1);
 
   const requestSent = useRef(false);
 
@@ -14,7 +14,7 @@ const ShareModal = ({ onClose, code, language }) => {
     setExpiryHours(value);
   };
 
-  const generateShareLink = async () => {
+  const generateCollaborateLink = async () => {
     if (requestSent.current) return;
     requestSent.current = true;
 
@@ -23,32 +23,33 @@ const ShareModal = ({ onClose, code, language }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/generate-share-link",
+        "http://localhost:8080/api/generate-collaborate-link",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload), // Send code and expiry time to the server
+          body: JSON.stringify(payload),
         }
       );
       const data = await response.json();
-      setShareLink(data.link);
-      toast.success("Link generated successfully");
+      setCollaborateLink(data.link);
+      toast.success("Collaborative link generated successfully");
     } catch (error) {
-      console.error("Failed to generate share link", error);
+      console.error("Failed to generate collaborative link", error);
       requestSent.current = false;
     }
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(shareLink);
+  const copyToClipboardAndOpen = () => {
+    navigator.clipboard.writeText(collaborateLink);
+    window.open(collaborateLink, "_blank");
     toast.success("Link copied to clipboard successfully");
   };
 
   const expiryOptions = [
+    { label: "in 30 minutes", value: 0.5 },
     { label: "in 1 hour", value: 1 },
-    { label: "in 6 hours", value: 6 },
     { label: "in 24 hours", value: 24 },
     { label: "in 3 days", value: 72 },
     { label: "in 7 days", value: 168 }
@@ -64,10 +65,10 @@ const ShareModal = ({ onClose, code, language }) => {
           <CloseIcon />
         </button>
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-          Share Code
+          Collaborate Code
         </h2>
         <p className="mb-6 text-gray-600">
-          Share this link to allow others to view your code. The link will
+          Share this link to allow others to edit your code. The link will
           expire after the selected time.
         </p>
         <label htmlFor="expiryHours" className="block text-gray-600 mb-2">
@@ -85,24 +86,24 @@ const ShareModal = ({ onClose, code, language }) => {
           <Button
             label="Get link"
             icon={<Link />}
-            onClick={generateShareLink}
+            onClick={generateCollaborateLink}
             textColor="text-primary-primary500"
             className="ml-auto"
           />
         </div>
-        {shareLink && (
+        {collaborateLink && (
           <div className="flex items-center space-x-4 mt-4">
             <input
               type="text"
               readOnly
-              value={shareLink}
+              value={collaborateLink}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary-primary500"
             />
             <Button
               label="Copy"
               icon={<Copy />}
               altText="Copy Link"
-              onClick={copyToClipboard}
+              onClick={copyToClipboardAndOpen}
               className="w-auto"
               bgColor="bg-primary-primary500"
               textColor="text-base-white"
@@ -118,4 +119,4 @@ const ShareModal = ({ onClose, code, language }) => {
   );
 };
 
-export default ShareModal;
+export default CollaborateModal;
