@@ -48,8 +48,8 @@ const CollaborateModal = ({ onClose, code, language }) => {
   };
 
   const expiryOptions = [
-    { label: "in 30 minutes", value: 0.5 },
     { label: "in 1 hour", value: 1 },
+    { label: "in 6 hours", value: 6 },
     { label: "in 24 hours", value: 24 },
     { label: "in 3 days", value: 72 },
     { label: "in 7 days", value: 168 }
