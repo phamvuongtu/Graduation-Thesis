@@ -21,7 +21,7 @@ public class SharedCode {
     private String language;
     private boolean editable;
 
-    private int activeUsers;
+//    private int activeUsers;
 
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(this.expirationTime);
@@ -74,12 +74,12 @@ public class SharedCode {
         this.editable = editable;
     }
 
-    public int getActiveUsers() {
-        return activeUsers;
-    }
+//    public int getActiveUsers() {
+//        return activeUsers;
+//    }
 
-    public void setActiveUsers(int activeUsers) {
-        this.activeUsers = activeUsers;
-    }
+//    public void setActiveUsers(int activeUsers) {
+//        this.activeUsers = activeUsers;
+//    }
 
 }

@@ -18,8 +18,6 @@ public class CollaborativeCodeService {
     private SharedCodeRepository sharedCodeRepository;
     private static final Logger logger = Logger.getLogger(CollaborativeCodeService.class.getName());
 
-    private CollaborativeCodeService collaborativeCodeService;
-
 
     public SharedCode generateCollaborateLink(String code, int expiryHours, String language) {
         SharedCode sharedCode = new SharedCode();
@@ -28,7 +26,7 @@ public class CollaborativeCodeService {
         sharedCode.setExpirationTime(LocalDateTime.now().plusHours(expiryHours)); // Set expiration time based on user input
         sharedCode.setLanguage(language); // Set ngôn ngữ
         sharedCode.setEditable(true); // Set editable to true
-        sharedCode.setActiveUsers(0); // Initialize active users to 0
+//        sharedCode.setActiveUsers(0); // Initialize active users to 0
 
         sharedCode = sharedCodeRepository.save(sharedCode);
         logger.info("Saved collaborative code with uniqueId: " + sharedCode.getUniqueId()); // Log when data is saved to the database
@@ -45,16 +43,14 @@ public class CollaborativeCodeService {
         return Optional.empty();
     }
 
-    public SharedCode updateCode(String uniqueId, String newCode) {
+    public void updateCode(String uniqueId, String newCode) {
         Optional<SharedCode> optionalSharedCode = sharedCodeRepository.findByUniqueId(uniqueId);
         if (optionalSharedCode.isPresent()) {
             SharedCode sharedCode = optionalSharedCode.get();
             sharedCode.setCode(newCode);
-            sharedCode = sharedCodeRepository.save(sharedCode);
+            sharedCodeRepository.save(sharedCode);
             logger.info("Updated collaborative code with uniqueId: " + uniqueId);
-            return sharedCode;
         }
-        return null;
     }
 
 //    public void updateActiveUsers(String uniqueId, int activeUsers) {
