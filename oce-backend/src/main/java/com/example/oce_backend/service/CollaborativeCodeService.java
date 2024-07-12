@@ -18,6 +18,9 @@ public class CollaborativeCodeService {
     private SharedCodeRepository sharedCodeRepository;
     private static final Logger logger = Logger.getLogger(CollaborativeCodeService.class.getName());
 
+    private CollaborativeCodeService collaborativeCodeService;
+
+
     public SharedCode generateCollaborateLink(String code, int expiryHours, String language) {
         SharedCode sharedCode = new SharedCode();
         sharedCode.setCode(code);
@@ -54,15 +57,15 @@ public class CollaborativeCodeService {
         return null;
     }
 
-    public void updateActiveUsers(String uniqueId, int activeUsers) {
-        Optional<SharedCode> optionalSharedCode = sharedCodeRepository.findByUniqueId(uniqueId);
-        if (optionalSharedCode.isPresent()) {
-            SharedCode sharedCode = optionalSharedCode.get();
-            sharedCode.setActiveUsers(activeUsers);
-            sharedCodeRepository.save(sharedCode);
-            logger.info("Updated active users for collaborative code with uniqueId: " + uniqueId);
-        }
-    }
+//    public void updateActiveUsers(String uniqueId, int activeUsers) {
+//        Optional<SharedCode> optionalSharedCode = sharedCodeRepository.findByUniqueId(uniqueId);
+//        if (optionalSharedCode.isPresent()) {
+//            SharedCode sharedCode = optionalSharedCode.get();
+//            sharedCode.setActiveUsers(activeUsers);
+//            sharedCodeRepository.save(sharedCode);
+//            logger.info("Updated active users for collaborative code with uniqueId: " + uniqueId);
+//        }
+//    }
 
     @Scheduled(fixedRate = 3600000) // Run every hour (3600000 milliseconds = 1 hour)
     public void cleanUpExpiredCodes() {

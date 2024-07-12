@@ -1,5 +1,7 @@
 package com.example.oce_backend.handler;
 
+import com.example.oce_backend.service.CollaborativeCodeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -14,18 +16,31 @@ public class CodeEditorHandler extends TextWebSocketHandler {
     private static final Logger logger = Logger.getLogger(CodeEditorHandler.class.getName());
     private static final ConcurrentHashMap<String, Set<WebSocketSession>> rooms = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<String, String> currentCode = new ConcurrentHashMap<>();
+    @Autowired
+    private CollaborativeCodeService collaborativeCodeService;
 
+
+    // Adds the user to the room and broadcasts the current code and user count.
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String roomId = getRoomId(session);
         rooms.computeIfAbsent(roomId, k -> ConcurrentHashMap.newKeySet()).add(session);
         logger.info("User connected to room: " + roomId);
-        session.sendMessage(new TextMessage("Connected to room: " + roomId));
+//        session.sendMessage(new TextMessage("Connected to room: " + roomId));
+        try {
+            session.sendMessage(new TextMessage("Connected to room: " + roomId));
 
-        // Gửi mã code hiện tại đến tab mới
-        if (currentCode.containsKey(roomId)) {
-            session.sendMessage(new TextMessage(currentCode.get(roomId)));
+            // Gửi mã code hiện tại đến tab mới
+
+            if (currentCode.containsKey(roomId)) {
+                session.sendMessage(new TextMessage(currentCode.get(roomId)));
+            }
+        } catch (Exception e) {
+            logger.warning("Error sending message after connection established: " + e.getMessage());
         }
+//        if (currentCode.containsKey(roomId)) {
+//            session.sendMessage(new TextMessage(currentCode.get(roomId)));
+//        }
 
         broadcastUserCount(roomId);
     }
@@ -41,11 +56,17 @@ public class CodeEditorHandler extends TextWebSocketHandler {
 
         for (WebSocketSession s : rooms.get(roomId)) {
             if (s.isOpen() && !s.getId().equals(session.getId())) {
-                s.sendMessage(new TextMessage(newCode));
+                try {
+                    s.sendMessage(new TextMessage(newCode));
+                } catch (Exception e) {
+                    logger.warning("Error sending message to session: " + e.getMessage());
+                }
             }
         }
     }
 
+    // Removes the user from the room and updates the user count.
+    // If the room is empty, it removes the room and its associated code.
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String roomId = getRoomId(session);
@@ -56,6 +77,11 @@ public class CodeEditorHandler extends TextWebSocketHandler {
                 rooms.remove(roomId);
                 currentCode.remove(roomId);
             } else {
+                // Update the current code in the database when a user disconnects
+                String code = currentCode.get(roomId);
+                if (code != null) {
+                    collaborativeCodeService.updateCode(roomId, code);
+                }
                 broadcastUserCount(roomId);
             }
         }
