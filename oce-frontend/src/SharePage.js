@@ -117,7 +117,7 @@ const SharePage = () => {
   };
 
   const handleFork = () => {
-    navigate("/", { state: { code, language } });
+    navigate("/", { state: { code, language, darkMode, theme: theme.value } });
   };
 
   return (

@@ -15,9 +15,11 @@ const CollaborativePage = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [userCount, setUserCount] = useState(0);
 
-  const socketRef = useRef(null);
+  const socketRef = useRef(null); // Sử dụng useRef để giữ kết nối WebSocket.
 
+  // useEffect to Initialize WebSocket and Fetch Initial Data
   useEffect(() => {
+    //Thiết lập kết nối WebSocket đến máy chủ.
     socketRef.current = new WebSocket(`ws://localhost:8080/collaborate/${id}`);
 
     socketRef.current.onopen = () => {
@@ -56,6 +58,7 @@ const CollaborativePage = () => {
         console.error("Error fetching collaborative code:", error);
       });
 
+    // Đóng kết nối WebSocket khi component unmount.
     return () => {
       if (socketRef.current) {
         socketRef.current.close();
@@ -88,7 +91,7 @@ const CollaborativePage = () => {
   };
 
   const handleFork = () => {
-    navigate("/", { state: { code, language } });
+    navigate("/", { state: { code, language, darkMode, theme: theme.value } });
   };
 
   return (

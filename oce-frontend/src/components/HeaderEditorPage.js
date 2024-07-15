@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Play, ShareFat, UsersFour, CodeBlock, Sun, Moon } from "./Icon";
+import { Play, ShareFat, UsersFour, Sun, Moon } from "./Icon";
 import ThemeDropdown from "./ThemeDropdown";
 import Button from "./Button";
 import DownloadButton from "./DownloadButton";
@@ -49,12 +49,12 @@ const Header = ({
             onClick={handleCompile}
             disabled={!code}
           />
-          <Button
+          {/* <Button
             label="Formatter"
             icon={<CodeBlock />}
             altText="Formatter Command"
             textColor="text-primary-primary500"
-          />
+          /> */}
           <Button
             label="Share"
             icon={<ShareFat />}

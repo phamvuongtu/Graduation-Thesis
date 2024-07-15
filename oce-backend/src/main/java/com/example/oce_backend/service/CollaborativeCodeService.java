@@ -35,9 +35,12 @@ public class CollaborativeCodeService {
 
     public Optional<SharedCode> getCollaborateLink(String uniqueId) {
         Optional<SharedCode> sharedCode = sharedCodeRepository.findByUniqueId(uniqueId);
-        if (sharedCode.isPresent() && !sharedCode.get().isExpired()) {
-            logger.info("Found collaborative code with uniqueId: " + uniqueId);
-            return sharedCode;
+        if (sharedCode.isPresent() && !sharedCode.get().isExpired() && sharedCode.get().isEditable()) {
+//            if (sharedCode.isPresent() && !sharedCode.get().isExpired()) {
+
+                logger.info("Found collaborative code with uniqueId: " + uniqueId);
+                return sharedCode;
+
         }
         logger.warning("Collaborative code not found or expired for uniqueId: " + uniqueId);
         return Optional.empty();

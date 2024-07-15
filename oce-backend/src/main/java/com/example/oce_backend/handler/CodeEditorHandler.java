@@ -31,7 +31,6 @@ public class CodeEditorHandler extends TextWebSocketHandler {
             session.sendMessage(new TextMessage("Connected to room: " + roomId));
 
             // Gửi mã code hiện tại đến tab mới
-
             if (currentCode.containsKey(roomId)) {
                 session.sendMessage(new TextMessage(currentCode.get(roomId)));
             }
